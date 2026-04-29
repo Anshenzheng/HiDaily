@@ -66,7 +66,7 @@
         <view 
           wx:for="{{habits}}" 
           wx:key="_id" 
-          class="habit-card card {{todayCheckins.some(c => c.habitId === item._id) ? 'checked' : ''}}"
+          class="habit-card card {{item.isCheckedToday ? 'checked' : ''}}"
           bindtap="onCheckin"
           data-id="{{item._id}}"
           data-name="{{item.name}}"
@@ -92,7 +92,7 @@
             </view>
 
             <view class="habit-status">
-              <view wx:if="{{todayCheckins.some(c => c.habitId === item._id)}}" class="status-checked">
+              <view wx:if="{{item.isCheckedToday}}" class="status-checked">
                 <text class="status-icon">✓</text>
                 <text class="status-text">已完成</text>
               </view>
