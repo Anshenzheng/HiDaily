@@ -131,12 +131,18 @@ Page({
     let totalCurrentStreak = 0
     let totalLongestStreak = 0
     
-    habits.forEach(habit => {
+    const habitsWithCheckStatus = habits.map(habit => {
       totalCurrentStreak = Math.max(totalCurrentStreak, habit.currentStreak || 0)
       totalLongestStreak = Math.max(totalLongestStreak, habit.longestStreak || 0)
+      
+      return {
+        ...habit,
+        isCheckedToday: completedHabitIds.includes(habit._id)
+      }
     })
 
     this.setData({
+      habits: habitsWithCheckStatus,
       stats: {
         totalHabits: habits.length,
         completedToday: completedToday,

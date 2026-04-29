@@ -234,7 +234,11 @@ Page({
   },
 
   onDateClick: function (e) {
-    const { dateStr, isPast, hasCheckins } = e.currentTarget.dataset
+    const { dateStr, isPast, hasCheckins, type } = e.currentTarget.dataset
+    
+    if (type !== 'day') {
+      return
+    }
     
     if (!isPast && !hasCheckins) {
       wx.showToast({

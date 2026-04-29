@@ -73,10 +73,11 @@
             wx:for="{{week}}" 
             wx:for-item="item" 
             wx:key="index"
-            bindtap="{{item.type === 'day' && item.isPast ? 'onDateClick' : ''}}"
+            bindtap="onDateClick"
             data-date-str="{{item.dateStr}}"
             data-is-past="{{item.isPast}}"
             data-has-checkins="{{item.hasCheckins}}"
+            data-type="{{item.type}}"
           >
             <text class="cell-text" wx:if="{{item.type === 'weekday'}}">{{item.label}}</text>
             <text class="cell-text" wx:elif="{{item.type === 'day'}}">{{item.day}}</text>
