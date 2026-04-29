@@ -1,0 +1,123 @@
+<view class="container">
+  <view class="form-section card">
+    <view class="form-item">
+      <view class="form-label">习惯名称</view>
+      <input 
+        class="form-input" 
+        placeholder="例如：每天阅读30分钟" 
+        value="{{name}}" 
+        bindinput="onNameInput"
+        maxlength="50"
+      />
+    </view>
+  </view>
+
+  <view class="form-section card">
+    <view class="form-label">选择图标</view>
+    <view class="icon-grid">
+      <view 
+        wx:for="{{icons}}" 
+        wx:key="emoji" 
+        class="icon-item {{selectedIcon === item.emoji ? 'selected' : ''}}"
+        bindtap="onIconSelect"
+        data-icon="{{item.emoji}}"
+      >
+        <text class="icon-emoji">{{item.emoji}}</text>
+        <text class="icon-label">{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="form-section card">
+    <view class="form-label">目标频率</view>
+    
+    <view class="frequency-type">
+      <view 
+        wx:for="{{frequencyTypes}}" 
+        wx:key="value" 
+        class="frequency-item {{frequencyType === item.value ? 'selected' : ''}}"
+        bindtap="onFrequencyTypeChange"
+        data-type="{{item.value}}"
+      >
+        {{item.label}}
+      </view>
+    </view>
+
+    <view class="frequency-value" wx:if="{{frequencyType !== 'daily'}}">
+      <view class="form-label">每周 {{frequencyType === 'weekly' ? '至少' : '目标'}}完成</view>
+      <picker 
+        mode="selector" 
+        range="{{frequencyType === 'weekly' ? [1,2,3,4,5,6,7] : [1,2,3,4,5,6,7,8,9,10,15,20,25,30]}}"
+        value="{{frequencyValue - 1}}"
+        bindchange="onFrequencyValueChange"
+      >
+        <view class="picker-value">
+          {{frequencyValue}} 次
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="frequency-desc text-secondary">
+      <text wx:if="{{frequencyType === 'daily'}}">每天都需要完成</text>
+      <text wx:elif="{{frequencyType === 'weekly'}}">每周至少完成 {{frequencyValue}} 天</text>
+      <text wx:elif="{{frequencyType === 'monthly'}}">每月目标完成 {{frequencyValue}} 天</text>
+    </view>
+  </view>
+
+  <view class="form-section card">
+    <view class="form-item flex justify-between align-center">
+      <view>
+        <view class="form-label">设置提醒</view>
+        <view class="text-secondary text-small">开启后将在指定时间提醒你打卡</view>
+      </view>
+      <switch 
+        checked="{{hasReminder}}" 
+        bindchange="onReminderToggle"
+        color="#4CAF50"
+      />
+    </view>
+
+    <view class="reminder-time" wx:if="{{hasReminder}}">
+      <picker 
+        mode="time" 
+        value="{{reminderTime}}" 
+        bindchange="onTimeChange"
+      >
+        <view class="time-picker">
+          <text class="time-value">{{reminderTime || '选择时间'}}</text>
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="form-section card">
+    <view class="form-item">
+      <view class="form-label">备注（可选）</view>
+      <textarea 
+        class="form-textarea" 
+        placeholder="添加一些激励自己的话..." 
+        value="{{description}}" 
+        bindinput="onDescriptionInput"
+        maxlength="200"
+      />
+      <view class="char-count">{{description.length}}/200</view>
+    </view>
+  </view>
+
+  <view class="action-section">
+    <button 
+      class="submit-btn btn-primary" 
+      bindtap="onSubmit"
+      loading="{{isSubmitting}}"
+      disabled="{{isSubmitting}}"
+    >
+      {{isEdit ? '保存修改' : '创建习惯'}}
+    </button>
+
+    <view class="delete-section" wx:if="{{isEdit}}">
+      <view class="delete-btn" bindtap="onDeleteHabit">删除习惯</view>
+    </view>
+  </view>
+</view>

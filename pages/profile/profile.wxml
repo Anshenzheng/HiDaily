@@ -1,0 +1,177 @@
+<view class="container">
+  <view wx:if="{{!isLoggedIn}}" class="login-prompt card">
+    <view class="prompt-content">
+      <text class="prompt-icon">👤</text>
+      <text class="prompt-text">登录后查看你的打卡统计和习惯数据</text>
+    </view>
+    <button class="login-btn btn-primary" bindtap="onGoLogin">立即登录</button>
+  </view>
+
+  <view wx:elif="{{loading}}" class="loading-state">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <view wx:else>
+    <view class="header-section">
+      <view class="user-card card">
+        <view class="user-info">
+          <image class="user-avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+          <view class="user-detail">
+            <view class="user-name">{{userInfo.nickName}}</view>
+            <view class="user-sign">坚持打卡，成为更好的自己</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="stats-grid card">
+        <view class="stat-item">
+          <view class="stat-value">{{totalStats.totalHabits}}</view>
+          <view class="stat-label">进行中习惯</view>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <view class="stat-value">{{totalStats.totalCheckins}}</view>
+          <view class="stat-label">累计打卡</view>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <view class="stat-value text-primary">{{totalStats.maxCurrentStreak}}</view>
+          <view class="stat-label">当前连续</view>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <view class="stat-value text-secondary">{{totalStats.maxLongestStreak}}</view>
+          <view class="stat-label">最长连续</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="calendar-section card">
+      <view class="calendar-header">
+        <view class="prev-month" bindtap="onPrevMonth">
+          <text class="arrow-icon">◀</text>
+        </view>
+        <view class="calendar-title">
+          <text class="year-text">{{currentYear}}年</text>
+          <text class="month-text">{{currentMonth}}月</text>
+        </view>
+        <view class="next-month" bindtap="onNextMonth">
+          <text class="arrow-icon">▶</text>
+        </view>
+      </view>
+
+      <view class="calendar-body">
+        <view class="calendar-week" wx:for="{{calendarData}}" wx:key="index" wx:for-item="week">
+          <view 
+            class="calendar-cell 
+              {{item.type === 'weekday' ? 'weekday-cell' : ''}} 
+              {{item.type === 'empty' ? 'empty-cell' : ''}} 
+              {{item.type === 'day' ? 'day-cell' : ''}} 
+              {{item.isToday ? 'today-cell' : ''}} 
+              {{item.hasCheckins ? 'has-checkins' : ''}}"
+            wx:for="{{week}}" 
+            wx:for-item="item" 
+            wx:key="index"
+            bindtap="{{item.type === 'day' && item.isPast ? 'onDateClick' : ''}}"
+            data-date-str="{{item.dateStr}}"
+            data-is-past="{{item.isPast}}"
+            data-has-checkins="{{item.hasCheckins}}"
+          >
+            <text class="cell-text" wx:if="{{item.type === 'weekday'}}">{{item.label}}</text>
+            <text class="cell-text" wx:elif="{{item.type === 'day'}}">{{item.day}}</text>
+            <view class="checkin-dot" wx:if="{{item.hasCheckins}}"></view>
+          </view>
+        </view>
+      </view>
+
+      <view class="calendar-legend">
+        <view class="legend-item">
+          <view class="legend-dot today"></view>
+          <text class="legend-text">今天</text>
+        </view>
+        <view class="legend-item">
+          <view class="legend-dot checked"></view>
+          <text class="legend-text">已打卡</text>
+        </view>
+        <view class="legend-item">
+          <text class="legend-desc">点击已过日期可补签</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="habits-section" wx:if="{{habitStats.length > 0}}">
+      <view class="section-header">
+        <view class="section-title">习惯统计</view>
+      </view>
+
+      <view class="habits-list">
+        <view wx:for="{{habitStats}}" wx:key="habitId" class="habit-stat-card card">
+          <view class="habit-stat-header">
+            <view class="habit-icon-wrapper">
+              <text class="habit-icon">{{item.habitIcon}}</text>
+            </view>
+            <view class="habit-stat-info">
+              <view class="habit-name">{{item.habitName}}</view>
+              <view class="habit-checkins">本月打卡 {{item.totalCheckins}} 次</view>
+            </view>
+          </view>
+
+          <view class="habit-stats-row">
+            <view class="habit-stat-item">
+              <view class="stat-num text-primary">{{item.currentStreak}}</view>
+              <view class="stat-label">当前连续</view>
+            </view>
+            <view class="habit-stat-item">
+              <view class="stat-num text-secondary">{{item.longestStreak}}</view>
+              <view class="stat-label">最长连续</view>
+            </view>
+            <view class="habit-stat-item">
+              <view class="stat-num">{{item.totalCheckins}}</view>
+              <view class="stat-label">总计打卡</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="modal-mask" wx:if="{{showSupplementModal}}" bindtap="onCloseSupplementModal">
+    <view class="modal-content" catchtap="">
+      <view class="modal-header">
+        <view class="modal-title">补签 - {{supplementDate}}</view>
+        <view class="modal-close" bindtap="onCloseSupplementModal">✕</view>
+      </view>
+
+      <view class="modal-body">
+        <view class="modal-hint text-secondary">选择需要补签的习惯（已勾选的表示当天已打卡）</view>
+
+        <view class="habit-list">
+          <view 
+            wx:for="{{availableHabits}}" 
+            wx:key="_id" 
+            class="habit-item {{item.isChecked ? 'checked' : ''}}"
+            bindtap="onHabitToggle"
+            data-id="{{item._id}}"
+          >
+            <view class="habit-checkbox">
+              <view class="checkbox-inner" wx:if="{{item.isChecked}}">✓</view>
+            </view>
+            <view class="habit-info">
+              <text class="habit-icon">{{item.icon}}</text>
+              <text class="habit-name">{{item.name}}</text>
+            </view>
+            <view class="habit-status" wx:if="{{item.isChecked && item.isAlreadyChecked}}">
+              <text class="status-text">已打卡</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="modal-footer">
+        <view class="cancel-btn" bindtap="onCloseSupplementModal">取消</view>
+        <view class="confirm-btn" bindtap="onSupplementConfirm">确认补签</view>
+      </view>
+    </view>
+  </view>
+</view>
