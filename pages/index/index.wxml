@@ -1,0 +1,127 @@
+<view class="container">
+  <view wx:if="{{!isLoggedIn}}" class="login-prompt card">
+    <view class="prompt-content">
+      <text class="prompt-icon">👋</text>
+      <text class="prompt-text">登录后即可创建习惯，开始打卡之旅</text>
+    </view>
+    <button class="login-btn btn-primary" bindtap="onGoLogin">立即登录</button>
+  </view>
+
+  <view wx:elif="{{loading}}" class="loading-state">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <view wx:else>
+    <view class="header-section">
+      <view class="date-info">
+        <view class="date-main">{{todayDate}}</view>
+        <view class="date-weekday">{{todayWeekday}}</view>
+      </view>
+      
+      <view class="user-info" wx:if="{{userInfo}}">
+        <image class="user-avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+        <view class="user-name">{{userInfo.nickName}}</view>
+      </view>
+    </view>
+
+    <view class="stats-section card">
+      <view class="stats-grid">
+        <view class="stat-item">
+          <view class="stat-value">{{stats.totalHabits}}</view>
+          <view class="stat-label">进行中习惯</view>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <view class="stat-value">{{stats.completedToday}}/{{stats.totalHabits}}</view>
+          <view class="stat-label">今日已完成</view>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <view class="stat-value text-primary">{{stats.currentStreak}}</view>
+          <view class="stat-label">连续打卡</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="habits-section">
+      <view class="section-header">
+        <view class="section-title">今日待打卡</view>
+        <view class="section-actions">
+          <view class="refresh-btn" bindtap="onPullDownRefresh">
+            <text class="refresh-icon">🔄</text>
+            <text class="refresh-text">刷新</text>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{habits.length === 0}}" class="empty-habits card">
+        <view class="empty-icon">🌱</view>
+        <view class="empty-text">还没有创建任何习惯</view>
+        <view class="empty-desc">点击下方按钮，开始你的第一个习惯</view>
+        <button class="add-habit-btn btn-primary" bindtap="onAddHabit">创建习惯</button>
+      </view>
+
+      <view wx:else class="habits-list">
+        <view 
+          wx:for="{{habits}}" 
+          wx:key="_id" 
+          class="habit-card card {{todayCheckins.some(c => c.habitId === item._id) ? 'checked' : ''}}"
+          bindtap="onCheckin"
+          data-id="{{item._id}}"
+          data-name="{{item.name}}"
+          data-icon="{{item.icon}}"
+        >
+          <view class="habit-main">
+            <view class="habit-icon-wrapper">
+              <text class="habit-icon">{{item.icon}}</text>
+            </view>
+            
+            <view class="habit-info">
+              <view class="habit-name">{{item.name}}</view>
+              <view class="habit-meta">
+                <view class="meta-item">
+                  <text class="meta-icon">🔥</text>
+                  <text class="meta-text">连续 {{item.currentStreak || 0}} 天</text>
+                </view>
+                <view class="meta-item">
+                  <text class="meta-icon">📊</text>
+                  <text class="meta-text">累计 {{item.totalCheckins || 0}} 次</text>
+                </view>
+              </view>
+            </view>
+
+            <view class="habit-status">
+              <view wx:if="{{todayCheckins.some(c => c.habitId === item._id)}}" class="status-checked">
+                <text class="status-icon">✓</text>
+                <text class="status-text">已完成</text>
+              </view>
+              <view wx:else class="status-unchecked">
+                <text class="status-circle"></text>
+                <text class="status-text">去打卡</text>
+              </view>
+            </view>
+          </view>
+
+          <view class="habit-frequency text-secondary text-small">
+            <text wx:if="{{item.frequencyType === 'daily'}}">每天</text>
+            <text wx:elif="{{item.frequencyType === 'weekly'}}">每周 {{item.frequencyValue}} 次</text>
+            <text wx:elif="{{item.frequencyType === 'monthly'}}">每月 {{item.frequencyValue}} 次</text>
+            <text wx:if="{{item.reminderTime}}"> · 提醒 {{item.reminderTime}}</text>
+          </view>
+
+          <view class="habit-actions" catchtap="onEditHabit" data-id="{{item._id}}">
+            <text class="action-icon">⚙️</text>
+            <text class="action-text">编辑</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="fab-section" wx:if="{{habits.length > 0}}">
+      <view class="fab-btn" bindtap="onAddHabit">
+        <text class="fab-icon">+</text>
+      </view>
+    </view>
+  </view>
+</view>

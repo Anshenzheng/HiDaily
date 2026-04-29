@@ -1,0 +1,38 @@
+<view class="login-container">
+  <view class="logo-section">
+    <view class="logo">
+      <text class="logo-icon">🌿</text>
+    </view>
+    <view class="app-name">HiDaily</view>
+    <view class="app-slogan">好习惯，从今天开始</view>
+  </view>
+  
+  <view class="login-section">
+    <view class="login-desc">
+      <text>欢迎使用 HiDaily</text>
+      <text class="text-secondary">登录后可创建习惯、记录打卡</text>
+    </view>
+    
+    <button 
+      class="login-btn {{isLoading ? 'loading' : ''}}" 
+      open-type="getUserInfo" 
+      bindgetuserinfo="onGotUserInfo"
+      disabled="{{isLoading}}"
+    >
+      <view wx:if="{{!isLoading}}" class="btn-content">
+        <text class="btn-icon">👤</text>
+        <text>微信授权登录</text>
+      </view>
+      <view wx:else class="btn-content">
+        <text>登录中...</text>
+      </view>
+    </button>
+    
+    <view class="agreement">
+      <text class="text-light text-small">登录即表示同意</text>
+      <text class="text-primary text-small">《用户协议》</text>
+      <text class="text-light text-small">和</text>
+      <text class="text-primary text-small">《隐私政策》</text>
+    </view>
+  </view>
+</view>

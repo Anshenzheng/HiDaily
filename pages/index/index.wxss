@@ -1,0 +1,404 @@
+.container {
+  padding: 0;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+}
+
+.login-prompt {
+  margin: 24rpx;
+  padding: 40rpx;
+  text-align: center;
+}
+
+.prompt-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32rpx;
+}
+
+.prompt-icon {
+  font-size: 64rpx;
+  margin-bottom: 16rpx;
+}
+
+.prompt-text {
+  font-size: 28rpx;
+  color: #666666;
+}
+
+.login-btn {
+  width: 100%;
+  height: 88rpx;
+  font-size: 30rpx;
+  border-radius: 44rpx;
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 40rpx;
+}
+
+.loading-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 4rpx solid #e0e0e0;
+  border-top-color: #4CAF50;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 24rpx;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 28rpx;
+  color: #999999;
+}
+
+.header-section {
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+  padding: 40rpx 32rpx 60rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.date-info {
+  flex: 1;
+}
+
+.date-main {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 8rpx;
+}
+
+.date-weekday {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  border: 4rpx solid rgba(255, 255, 255, 0.5);
+  margin-bottom: 8rpx;
+}
+
+.user-name {
+  font-size: 24rpx;
+  color: #ffffff;
+}
+
+.stats-section {
+  margin: -32rpx 24rpx 24rpx;
+  position: relative;
+  z-index: 10;
+}
+
+.stats-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 32rpx 16rpx;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 48rpx;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.stat-divider {
+  width: 1rpx;
+  height: 60rpx;
+  background-color: #e0e0e0;
+}
+
+.habits-section {
+  padding: 0 24rpx 40rpx;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333333;
+}
+
+.section-actions {
+  display: flex;
+  align-items: center;
+}
+
+.refresh-btn {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 20rpx;
+  background-color: #E8F5E9;
+  border-radius: 24rpx;
+}
+
+.refresh-icon {
+  font-size: 24rpx;
+  margin-right: 8rpx;
+}
+
+.refresh-text {
+  font-size: 24rpx;
+  color: #4CAF50;
+}
+
+.empty-habits {
+  padding: 60rpx 40rpx;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 24rpx;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 12rpx;
+}
+
+.empty-desc {
+  font-size: 26rpx;
+  color: #999999;
+  margin-bottom: 32rpx;
+}
+
+.add-habit-btn {
+  width: 100%;
+  height: 88rpx;
+  font-size: 30rpx;
+  border-radius: 44rpx;
+}
+
+.habits-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.habit-card {
+  margin-bottom: 24rpx;
+  padding: 32rpx;
+  transition: all 0.3s ease;
+}
+
+.habit-card.checked {
+  opacity: 0.8;
+  background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+}
+
+.habit-main {
+  display: flex;
+  align-items: center;
+}
+
+.habit-icon-wrapper {
+  width: 96rpx;
+  height: 96rpx;
+  background-color: #f8f9fa;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+}
+
+.habit-card.checked .habit-icon-wrapper {
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+.habit-icon {
+  font-size: 48rpx;
+}
+
+.habit-info {
+  flex: 1;
+  margin-right: 20rpx;
+}
+
+.habit-name {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 12rpx;
+}
+
+.habit-card.checked .habit-name {
+  text-decoration: line-through;
+  color: #999999;
+}
+
+.habit-meta {
+  display: flex;
+  gap: 24rpx;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+}
+
+.meta-icon {
+  font-size: 24rpx;
+  margin-right: 6rpx;
+}
+
+.meta-text {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.habit-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80rpx;
+}
+
+.status-checked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.status-icon {
+  width: 48rpx;
+  height: 48rpx;
+  background-color: #4CAF50;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 28rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.status-text {
+  font-size: 22rpx;
+  color: #999999;
+}
+
+.status-checked .status-text {
+  color: #4CAF50;
+}
+
+.status-unchecked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.status-circle {
+  width: 48rpx;
+  height: 48rpx;
+  border: 4rpx solid #e0e0e0;
+  border-radius: 50%;
+  margin-bottom: 8rpx;
+}
+
+.habit-frequency {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f0f0f0;
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.habit-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx dashed #e0e0e0;
+}
+
+.action-icon {
+  font-size: 22rpx;
+  margin-right: 6rpx;
+}
+
+.action-text {
+  font-size: 22rpx;
+  color: #999999;
+}
+
+.fab-section {
+  position: fixed;
+  bottom: 120rpx;
+  right: 32rpx;
+  z-index: 100;
+}
+
+.fab-btn {
+  width: 112rpx;
+  height: 112rpx;
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 24rpx rgba(76, 175, 80, 0.4);
+}
+
+.fab-icon {
+  font-size: 56rpx;
+  color: #ffffff;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.text-secondary {
+  color: #666666;
+}
+
+.text-small {
+  font-size: 24rpx;
+}
+
+.text-primary {
+  color: #4CAF50;
+}
