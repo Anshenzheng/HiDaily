@@ -19,21 +19,15 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "今日",
-        "iconPath": "images/tab-home.png",
-        "selectedIconPath": "images/tab-home-active.png"
+        "text": "今日"
       },
       {
         "pagePath": "pages/create/create",
-        "text": "创建",
-        "iconPath": "images/tab-add.png",
-        "selectedIconPath": "images/tab-add-active.png"
+        "text": "创建"
       },
       {
         "pagePath": "pages/profile/profile",
-        "text": "我的",
-        "iconPath": "images/tab-profile.png",
-        "selectedIconPath": "images/tab-profile-active.png"
+        "text": "我的"
       }
     ]
   },
